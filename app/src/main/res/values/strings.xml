@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Firefly Viewer</string>
+    <string name="edit_message">Enter your username</string>
+    <string name="button_send">Login</string>
+    <string name="pass_message">Enter your password</string>
+    <string name="button_view_tasks">View Tasks</string>
+    <string name="button_view_timetable">View Timetable</string>
+    <string name="button_view_notices">View Noticeboard</string>
+    <string name="button_logout">Logout</string>
+    <string name="main_welcome">Welcome to the dashboard</string>
+</resources>
