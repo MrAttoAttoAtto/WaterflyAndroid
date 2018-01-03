@@ -41,9 +41,9 @@ public class LoadingPage extends AppCompatActivity {
         username = intent.getStringExtra(MainActivity.EXTRA_USERNAME);
         password = intent.getStringExtra(MainActivity.EXTRA_PASSWORD);
 
-        summaryUrl = "http://f-server-firefly-api.7e14.starter-us-west-2.openshiftapps.com/summary";
-        tasksUrl = "http://f-server-firefly-api.7e14.starter-us-west-2.openshiftapps.com/tasks";
-        noticesUrl = "http://f-server-firefly-api.7e14.starter-us-west-2.openshiftapps.com/notices";
+        summaryUrl = "https://firefly-server.herokuapp.com//summary";
+        tasksUrl = "https://firefly-server.herokuapp.com/tasks";
+        noticesUrl = "https://firefly-server.herokuapp.com/notices";
 
         try {
             apiConnect(summaryUrl, username, password);
@@ -90,9 +90,7 @@ public class LoadingPage extends AppCompatActivity {
 
                     String result = a.toString();
 
-                    in.close();
-
-                    Map<String, String> temp = new HashMap<String, String>();
+                    Map<String, String> temp = new HashMap<>();
                     temp.put("username", username);
                     temp.put("password", password);
 

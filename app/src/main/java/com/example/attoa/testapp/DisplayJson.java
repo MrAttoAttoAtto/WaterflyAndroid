@@ -42,10 +42,10 @@ public class DisplayJson extends AppCompatActivity {
 
     static public jsonData summaryData;
 
-    static public class jsonData {
-        public Map<String, String>[] notices;
-        public Map<String, String>[] tasks;
-        public Map<String, String>[][] timetable;
+    static private class jsonData {
+        private Map<String, String>[] notices;
+        private Map<String, String>[] tasks;
+        private Map<String, String>[][] timetable;
     }
 
     static public class tempTOrN {public Map<String, String>[] data;}
@@ -72,9 +72,9 @@ public class DisplayJson extends AppCompatActivity {
             updateJson(rawJson);
         }
 
-        Log.d("TEACHER TASK 1", summaryData.tasks[0].get("teacher"));
-        Log.d("ROOM MONDAY 3RD PERIOD", summaryData.timetable[0][2].get("room"));
-        Log.d("1st NOTICE", summaryData.notices[0].get("title"));
+        //Log.d("TEACHER TASK 1", summaryData.tasks[0].get("teacher"));
+        //Log.d("ROOM MONDAY 3RD PERIOD", summaryData.timetable[0][2].get("room"));
+        //Log.d("1st NOTICE", summaryData.notices[0].get("title"));
     }
 
     public static void updateJson(String rawJson, String field) {
@@ -82,19 +82,19 @@ public class DisplayJson extends AppCompatActivity {
 
         mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 
-        if (field == "all") {
+        if (field.equalsIgnoreCase("all")) {
             try {
                 DisplayJson.summaryData = mapper.readValue(rawJson, jsonData.class);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (field == "tasks") {
+        } else if (field.equalsIgnoreCase("tasks")) {
             try {
                 DisplayJson.summaryData.tasks = mapper.readValue("{\"data\":" + rawJson + "}", tempTOrN.class).data;
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        } else if (field == "notices") {
+        } else if (field.equalsIgnoreCase("notices")) {
             try {
                 DisplayJson.summaryData.notices = mapper.readValue("{\"data\":" + rawJson + "}", tempTOrN.class).data;
             } catch (IOException ex) {
