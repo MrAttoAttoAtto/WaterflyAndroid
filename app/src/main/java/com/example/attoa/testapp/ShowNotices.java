@@ -1,6 +1,6 @@
 package com.example.attoa.testapp;
 
-import android.app.Dialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -15,12 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,11 +27,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.function.Function;
 
 public class ShowNotices extends AppCompatActivity {
 
-    public final static String EXTRA_MESSAGE = "com.example.myfirstapp.JSON";
     private Thread thread;
 
     @Override
@@ -46,9 +40,10 @@ public class ShowNotices extends AppCompatActivity {
         setTitle("Noticeboard");
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.activity_show_notices, null);
+        //noinspection ConstantConditions
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.activity_show_notices, null);
 
-        TableLayout tableLayout = (TableLayout) view.findViewById(R.id.noticeTable);
+        TableLayout tableLayout = view.findViewById(R.id.noticeTable);
 
         // Add text
         for (int iter = 0; iter < DisplayJson.summaryData.notices.length; iter++) {
@@ -104,7 +99,7 @@ public class ShowNotices extends AppCompatActivity {
         ConstraintLayout layout = (ConstraintLayout) view.getParent();
         ConstraintSet set = new ConstraintSet();
         ProgressBar loadingBar = new ProgressBar(this);
-        FloatingActionButton refreshButton = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
+        FloatingActionButton refreshButton = view.findViewById(R.id.floatingActionButton);
 
         refreshButton.setOnClickListener(null);
 
@@ -127,7 +122,7 @@ public class ShowNotices extends AppCompatActivity {
         }
     }
 
-    public void apiConnect(String url, final String username, final String password) throws IOException {
+    private void apiConnect(String url, final String username, final String password) throws IOException {
 
         final URL realUrl = new URL(url);
 
@@ -151,6 +146,7 @@ public class ShowNotices extends AppCompatActivity {
                     String inputLine;
                     StringBuilder a = new StringBuilder();
                     while ((inputLine = in.readLine()) != null)
+                        //noinspection StringConcatenationInsideStringBufferAppend
                         a.append(inputLine + "\n");
                     in.close();
 

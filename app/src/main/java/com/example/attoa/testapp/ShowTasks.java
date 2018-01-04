@@ -1,5 +1,6 @@
 package com.example.attoa.testapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,15 +31,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ShowTasks extends AppCompatActivity {
 
     private Thread threadGen;
-    private Thread threadSpec;
-    private List<TextView> dueDateTextViews = new ArrayList<TextView>();
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +45,10 @@ public class ShowTasks extends AppCompatActivity {
         setTitle("Tasks");
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.activity_show_tasks, null);
+        //noinspection ConstantConditions
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.activity_show_tasks, null);
 
-        TableLayout tableLayout = (TableLayout) view.findViewById(R.id.taskTable);
+        TableLayout tableLayout = view.findViewById(R.id.taskTable);
 
         // Add text
         for (int iter = 0; iter < DisplayJson.summaryData.tasks.length; iter++) {
@@ -87,16 +86,15 @@ public class ShowTasks extends AppCompatActivity {
             classView.setLayoutParams(layoutParams);
 
             TextView teacherView = new TextView(this);
-            teacherView.setText("Set by " + DisplayJson.summaryData.tasks[iter].get("teacher"));
+            teacherView.setText(getString(R.string.set_by) + DisplayJson.summaryData.tasks[iter].get("teacher"));
             teacherView.setLayoutParams(layoutParams);
 
             TextView dueView = new TextView(this);
 
-            dueView.setText("Due " + DisplayJson.summaryData.tasks[iter].get("dueDate"));
+            dueView.setText(getString(R.string.due) + DisplayJson.summaryData.tasks[iter].get("dueDate"));
 
             dueView.setLayoutParams(layoutParams);
             dueView.setTypeface(null, Typeface.BOLD);
-            dueDateTextViews.add(dueView);
 
             Log.d("ITER", "" + iter);
             Log.d("CLASS", DisplayJson.summaryData.tasks[iter].get("class"));
@@ -120,6 +118,7 @@ public class ShowTasks extends AppCompatActivity {
         setContentView(view);
     }
 
+    @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
     private void inDepthTaskView(final int taskNum) {
         Log.d("NUM", "" + taskNum);
         Log.d("TEACHER", DisplayJson.summaryData.tasks[taskNum].get("teacher"));
@@ -161,7 +160,7 @@ public class ShowTasks extends AppCompatActivity {
         ConstraintLayout layout = (ConstraintLayout) view.getParent();
         ConstraintSet set = new ConstraintSet();
         ProgressBar loadingBar = new ProgressBar(this);
-        FloatingActionButton refreshButton = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
+        FloatingActionButton refreshButton = view.findViewById(R.id.floatingActionButton);
 
         refreshButton.setOnClickListener(null);
 
@@ -184,7 +183,7 @@ public class ShowTasks extends AppCompatActivity {
         }
     }
 
-    public void apiConnect(String url, final String username, final String password) throws IOException {
+    private void apiConnect(String url, final String username, final String password) throws IOException {
 
         final URL realUrl = new URL(url);
 
@@ -208,6 +207,7 @@ public class ShowTasks extends AppCompatActivity {
                     String inputLine;
                     StringBuilder a = new StringBuilder();
                     while ((inputLine = in.readLine()) != null)
+                        //noinspection StringConcatenationInsideStringBufferAppend
                         a.append(inputLine + "\n");
                     in.close();
 

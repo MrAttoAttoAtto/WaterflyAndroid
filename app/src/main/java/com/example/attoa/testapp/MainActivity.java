@@ -31,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
         Boolean loginCached = true;
 
-        Map<String, String> creds = new HashMap<String, String>();
+        Map<String, String> creds = new HashMap<>();
 
         try {
             FileInputStream fio = openFileInput("creds.ser");
             ObjectInputStream oos = new ObjectInputStream(fio);
+            //noinspection unchecked
             creds = (Map<String, String>) oos.readObject();
             oos.close();
             fio.close();
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
         }
 
-        EditText password = (EditText) findViewById(R.id.editPassword);
+        EditText password = findViewById(R.id.editPassword);
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());
     }
@@ -79,13 +80,13 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Send Button
      */
-    public void sendMessage(View view) {
+    public void sendMessage(@SuppressWarnings("unused") View view) {
         Intent intent = new Intent(this, LoadingPage.class);
 
-        EditText editUser = (EditText) findViewById(R.id.editUser);
+        EditText editUser = findViewById(R.id.editUser);
         String username = editUser.getText().toString();
 
-        EditText editPass = (EditText) findViewById(R.id.editPassword);
+        EditText editPass = findViewById(R.id.editPassword);
         String password = editPass.getText().toString();
 
         intent.putExtra(EXTRA_USERNAME, username);

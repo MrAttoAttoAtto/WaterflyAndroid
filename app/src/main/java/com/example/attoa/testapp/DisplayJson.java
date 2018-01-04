@@ -1,54 +1,39 @@
 package com.example.attoa.testapp;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class DisplayJson extends AppCompatActivity {
 
     public final static String EXTRA_THREAD_CANCELLED = "com.example.myfirstapp.THREAD_CANCELLED";
     public final static String EXTRA_LOGOUT = "com.example.myfirstapp.LOGOUT";
 
-    static public String rawJson;
+    private static String rawJson;
 
     static public jsonData summaryData;
 
-    static private class jsonData {
-        private Map<String, String>[] notices;
-        private Map<String, String>[] tasks;
-        private Map<String, String>[][] timetable;
+    static class jsonData {
+        Map<String, String>[] notices;
+        Map<String, String>[] tasks;
+        @SuppressWarnings("unused")
+        Map<String, String>[][] timetable;
     }
 
-    static public class tempTOrN {public Map<String, String>[] data;}
+    static public class tempTOrN {
+        @SuppressWarnings("unused")
+        public Map<String, String>[] data;}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +57,13 @@ public class DisplayJson extends AppCompatActivity {
             updateJson(rawJson);
         }
 
-        //Log.d("TEACHER TASK 1", summaryData.tasks[0].get("teacher"));
-        //Log.d("ROOM MONDAY 3RD PERIOD", summaryData.timetable[0][2].get("room"));
-        //Log.d("1st NOTICE", summaryData.notices[0].get("title"));
+        try {
+            Log.d("TEACHER TASK 1", summaryData.tasks[0].get("teacher"));
+            Log.d("ROOM MONDAY 3RD PERIOD", summaryData.timetable[0][2].get("room"));
+            Log.d("1st NOTICE", summaryData.notices[0].get("title"));
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void updateJson(String rawJson, String field) {
@@ -103,7 +92,7 @@ public class DisplayJson extends AppCompatActivity {
         }
     }
 
-    public static void updateJson(String rawJson) {
+    private static void updateJson(String rawJson) {
         updateJson(rawJson, "all");
     }
 

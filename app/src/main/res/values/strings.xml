@@ -4,8 +4,12 @@
     <string name="button_send">Login</string>
     <string name="pass_message">Enter your password</string>
     <string name="button_view_tasks">View Tasks</string>
-    <string name="button_view_timetable">View Timetable</string>
     <string name="button_view_notices">View Noticeboard</string>
     <string name="button_logout">Logout</string>
     <string name="main_welcome">Welcome to the dashboard</string>
+    <string name="wait_string">Please wait…</string>
+    <string name="logo_desc">Main logo for the main menu</string>
+    <string name="login_string">Login to Firefly</string>
+    <string name="set_by">Set by </string>
+    <string name="due">Due </string>
 </resources>

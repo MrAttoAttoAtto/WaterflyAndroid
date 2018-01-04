@@ -26,7 +26,6 @@ public class LoadingPage extends AppCompatActivity {
 
     public static String username;
     public static String password;
-    public static String summaryUrl;
     public static String tasksUrl;
     public static String noticesUrl;
 
@@ -41,7 +40,7 @@ public class LoadingPage extends AppCompatActivity {
         username = intent.getStringExtra(MainActivity.EXTRA_USERNAME);
         password = intent.getStringExtra(MainActivity.EXTRA_PASSWORD);
 
-        summaryUrl = "https://firefly-server.herokuapp.com//summary";
+        String summaryUrl = "https://firefly-server.herokuapp.com//summary";
         tasksUrl = "https://firefly-server.herokuapp.com/tasks";
         noticesUrl = "https://firefly-server.herokuapp.com/notices";
 
@@ -54,7 +53,7 @@ public class LoadingPage extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void apiConnect(String url, final String username, final String password) throws IOException {
+    private void apiConnect(String url, final String username, final String password) throws IOException {
 
         final URL realUrl = new URL(url);
 
@@ -85,6 +84,7 @@ public class LoadingPage extends AppCompatActivity {
                     String inputLine;
                     StringBuilder a = new StringBuilder();
                     while ((inputLine = in.readLine()) != null)
+                        //noinspection StringConcatenationInsideStringBufferAppend
                         a.append(inputLine + "\n");
                     in.close();
 
@@ -97,7 +97,6 @@ public class LoadingPage extends AppCompatActivity {
                     FileOutputStream fio = openFileOutput("creds.ser", MODE_PRIVATE);
                     ObjectOutputStream oos = new ObjectOutputStream(fio);
                     oos.writeObject(temp);
-                    temp = null;
                     oos.close();
                     fio.close();
 
@@ -112,7 +111,7 @@ public class LoadingPage extends AppCompatActivity {
 
     }
 
-    public void finishedLoading(String json) {
+    private void finishedLoading(String json) {
         Intent intent = new Intent(this, DisplayJson.class);
         intent.putExtra(EXTRA_MESSAGE, json);
         startActivity(intent);
