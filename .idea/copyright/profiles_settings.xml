@@ -1,5 +1,5 @@
 <component name="CopyrightManager">
-  <settings default="GNU Atto">
+  <settings>
     <module2copyright>
       <element module="All" copyright="GNU Atto" />
     </module2copyright>
