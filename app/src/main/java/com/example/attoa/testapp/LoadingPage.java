@@ -58,7 +58,7 @@ public class LoadingPage extends AppCompatActivity {
         username = intent.getStringExtra(MainActivity.EXTRA_USERNAME);
         password = intent.getStringExtra(MainActivity.EXTRA_PASSWORD);
 
-        String summaryUrl = "https://firefly-server.herokuapp.com//summary";
+        String summaryUrl = "https://firefly-server.herokuapp.com/summary";
         tasksUrl = "https://firefly-server.herokuapp.com/tasks";
         noticesUrl = "https://firefly-server.herokuapp.com/notices";
 
