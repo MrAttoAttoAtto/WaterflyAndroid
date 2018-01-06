@@ -65,21 +65,27 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (loginCached) {
-            Intent newIntent = new Intent(this, LoadingPage.class);
-            newIntent.putExtra(EXTRA_USERNAME, creds.get("username"));
-            newIntent.putExtra(EXTRA_PASSWORD, creds.get("password"));
-            startActivity(newIntent);
-            finish();
-        }
-
-        if (intent.hasExtra(LoadingPage.EXTRA_FAILED)) {
+        if (intent.hasExtra(LoadingPage.EXTRA_WRONGCREDS)) {
+            logout();
+            loginCached = false;
             Snackbar refresher = Snackbar.make(findViewById(R.id.mainConstraint), "Incorrect username or password, try again", Snackbar.LENGTH_LONG);
             refresher.show();
+        } else if (intent.hasExtra(LoadingPage.EXTRA_FAILED)) {
+            loginCached = false;
+            String resp_code = String.valueOf(intent.getIntExtra(LoadingPage.EXTRA_FAILED, 500));
+            Snackbar refresher = Snackbar.make(findViewById(R.id.mainConstraint), "Login failed for an unknown reason. Response code: " + resp_code, Snackbar.LENGTH_LONG);
+            refresher.show();
+        } else if (intent.hasExtra(LoadingPage.EXTRA_CANCELLED)) {
+            logout();
+            loginCached = false;
+            Snackbar refresher = Snackbar.make(findViewById(R.id.mainConstraint), "Login cancelled", Snackbar.LENGTH_LONG);
+            refresher.show();
         } else if (intent.hasExtra(DisplayJson.EXTRA_LOGOUT)) {
+            logout();
+            loginCached = false;
             Snackbar refresher = Snackbar.make(findViewById(R.id.mainConstraint), "Successfully logged out", Snackbar.LENGTH_LONG);
             refresher.show();
-        } else {
+        } else if (!loginCached){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Basically, do not think this app is safe in any way, we have neither the " +
                     "time nor resources to make a safe app. \n\nTherefore, we do not accept any liability (" +
@@ -88,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
             builder.setTitle("WARNING: This app is not safe!");
             AlertDialog alert = builder.create();
             alert.show();
+        }
+
+        if (loginCached) {
+            Intent newIntent = new Intent(this, LoadingPage.class);
+            newIntent.putExtra(EXTRA_USERNAME, creds.get("username"));
+            newIntent.putExtra(EXTRA_PASSWORD, creds.get("password"));
+            startActivity(newIntent);
+            finish();
         }
 
         EditText password = findViewById(R.id.editPassword);
@@ -112,5 +126,11 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intent);
         finish();
+    }
+
+    private void logout() {
+        DisplayJson.rawJson = null;
+        DisplayJson.summaryData = null;
+        this.deleteFile("creds.ser");
     }
 }

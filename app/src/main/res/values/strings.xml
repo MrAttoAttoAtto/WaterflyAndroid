@@ -28,6 +28,6 @@
     <string name="wait_string">Please wait…</string>
     <string name="logo_desc">Main logo for the main menu</string>
     <string name="login_string">Login to Firefly</string>
-    <string name="set_by">Set by </string>
-    <string name="due">Due </string>
+    <string name="set_by">Set by</string>
+    <string name="due">Due</string>
 </resources>

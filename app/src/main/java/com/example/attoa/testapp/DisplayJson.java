@@ -38,7 +38,7 @@ public class DisplayJson extends AppCompatActivity {
     public final static String EXTRA_THREAD_CANCELLED = "com.example.myfirstapp.THREAD_CANCELLED";
     public final static String EXTRA_LOGOUT = "com.example.myfirstapp.LOGOUT";
 
-    private static String rawJson;
+    static String rawJson;
 
     static public jsonData summaryData;
 
@@ -130,9 +130,6 @@ public class DisplayJson extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        DisplayJson.rawJson = null;
-        DisplayJson.summaryData = null;
-        this.deleteFile("creds.ser");
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(DisplayJson.EXTRA_LOGOUT, true);
         startActivity(intent);

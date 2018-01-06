@@ -104,12 +104,12 @@ public class ShowTasks extends AppCompatActivity {
             classView.setLayoutParams(layoutParams);
 
             TextView teacherView = new TextView(this);
-            teacherView.setText(getString(R.string.set_by) + DisplayJson.summaryData.tasks[iter].get("teacher"));
+            teacherView.setText(getString(R.string.set_by) + " " + DisplayJson.summaryData.tasks[iter].get("teacher"));
             teacherView.setLayoutParams(layoutParams);
 
             TextView dueView = new TextView(this);
 
-            dueView.setText(getString(R.string.due) + DisplayJson.summaryData.tasks[iter].get("dueDate"));
+            dueView.setText(getString(R.string.due) + " " + DisplayJson.summaryData.tasks[iter].get("dueDate"));
 
             dueView.setLayoutParams(layoutParams);
             dueView.setTypeface(null, Typeface.BOLD);
@@ -149,7 +149,7 @@ public class ShowTasks extends AppCompatActivity {
 
         int lenAfterTitle = message.length();
 
-        message.append("\n\nDescription: " + DisplayJson.summaryData.tasks[taskNum].get("description"));
+        message.append("\n\nDescription:\n" + DisplayJson.summaryData.tasks[taskNum].get("description").trim());
         message.append("\n\nSet " + DisplayJson.summaryData.tasks[taskNum].get("setDate"));
 
         int lenBeforeDue = message.length();

@@ -39,7 +39,9 @@ import java.util.Map;
 public class LoadingPage extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "com.example.myfirstapp.JSON";
-    public final static String EXTRA_FAILED = "com.example.myfirstapp.ERROR";
+    public final static String EXTRA_WRONGCREDS = "com.example.myfirstapp.WRONGCREDS";
+    public final static String EXTRA_FAILED = "com.example.myfirstapp.FAILED";
+    public final static String EXTRA_CANCELLED = "com.example.myfirstapp.CANCELLED";
     private Thread thread;
 
     public static String username;
@@ -90,9 +92,16 @@ public class LoadingPage extends AppCompatActivity {
 
                     Log.d("STATUS", Integer.toString(connection.getResponseCode()));
 
+                    int resp_code;
+
                     if (connection.getResponseCode() == 401) {
                         Intent intent = new Intent(LoadingPage.this, MainActivity.class);
-                        intent.putExtra(EXTRA_FAILED, true);
+                        intent.putExtra(EXTRA_WRONGCREDS, true);
+                        startActivity(intent);
+                        finish();
+                    } else if ((resp_code = connection.getResponseCode()) != 200) {
+                        Intent intent = new Intent(LoadingPage.this, MainActivity.class);
+                        intent.putExtra(EXTRA_FAILED, resp_code);
                         startActivity(intent);
                         finish();
                     }
@@ -149,6 +158,7 @@ public class LoadingPage extends AppCompatActivity {
         password = null;
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(EXTRA_CANCELLED, true);
         startActivity(intent);
         finish();
     }
