@@ -47,6 +47,7 @@ public class DisplayJson extends AppCompatActivity {
         Map<String, String>[] tasks;
         @SuppressWarnings("unused")
         Map<String, String>[][] timetable;
+        Map<String, String>[] music_lessons;
     }
 
     static public class tempTOrN {
