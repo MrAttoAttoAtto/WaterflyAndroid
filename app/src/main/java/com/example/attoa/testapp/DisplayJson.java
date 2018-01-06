@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unused")
@@ -43,11 +44,11 @@ public class DisplayJson extends AppCompatActivity {
     static public jsonData summaryData;
 
     static class jsonData {
+        Map<String, Map<String, String>[]> music;
         Map<String, String>[] notices;
         Map<String, String>[] tasks;
         @SuppressWarnings("unused")
         Map<String, String>[][] timetable;
-        Map<String, String>[] music_lessons;
     }
 
     static public class tempTOrN {
@@ -77,6 +78,7 @@ public class DisplayJson extends AppCompatActivity {
         }
 
         try {
+            Log.d("MUSIC LESSON 1", summaryData.music.get("music_lessons")[0].get("date"));
             Log.d("TEACHER TASK 1", summaryData.tasks[0].get("teacher"));
             Log.d("ROOM MONDAY 3RD PERIOD", summaryData.timetable[0][2].get("room"));
             Log.d("1st NOTICE", summaryData.notices[0].get("title"));
