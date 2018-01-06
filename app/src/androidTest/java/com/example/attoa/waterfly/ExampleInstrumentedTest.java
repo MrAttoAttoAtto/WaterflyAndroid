@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.example.attoa.testapp;
+package com.example.attoa.waterfly;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -39,6 +39,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.attoa.testapp", appContext.getPackageName());
+        assertEquals("com.example.attoa.waterfly", appContext.getPackageName());
     }
 }

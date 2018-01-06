@@ -16,23 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.example.attoa.testapp;
+package com.example.attoa.waterfly;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -46,52 +50,80 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ShowNotices extends AppCompatActivity {
+public class ShowTasks extends AppCompatActivity {
 
-    private Thread thread;
+    private Thread threadGen;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_notices);
+        setContentView(R.layout.activity_show_tasks);
 
-        setTitle("Noticeboard");
+        setTitle("Tasks");
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //noinspection ConstantConditions
-        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.activity_show_notices, null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.activity_show_tasks, null);
 
-        TableLayout tableLayout = view.findViewById(R.id.noticeTable);
+        TableLayout tableLayout = view.findViewById(R.id.taskTable);
 
         // Add text
-        for (int iter = 0; iter < DisplayJson.summaryData.notices.length; iter++) {
+        for (int iter = 0; iter < DisplayJson.summaryData.tasks.length; iter++) {
             TableRow tableRow = new TableRow(this);
             tableRow.setPadding(16, 16, 16, 16);
+
+            LinearLayout container = new LinearLayout(this);
+            container.setOrientation(LinearLayout.VERTICAL);
 
             TableLayout.LayoutParams rowParams = new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT);
 
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
+            TableRow.LayoutParams layoutLayoutParams = new TableRow.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1.0f);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     1.0f);
 
             TextView titleView = new TextView(this);
-
-            titleView.setText(DisplayJson.summaryData.notices[iter].get("title"));
+            titleView.setText(DisplayJson.summaryData.tasks[iter].get("title"));
             titleView.setEllipsize(TextUtils.TruncateAt.END);
             titleView.setMaxLines(1);
             //titleView.setMaxEms(22); I do NOT want to set this (but setting it DOES work as expected)
             titleView.setLayoutParams(layoutParams);
-            if (DisplayJson.summaryData.notices[iter].get("title").contains("** New **")) {
-                titleView.setTypeface(null, Typeface.BOLD);
-            }
+            titleView.setTypeface(null, Typeface.BOLD);
+            titleView.setTextColor(Color.parseColor("#404040"));
+
+            TextView classView = new TextView(this);
+            classView.setText(DisplayJson.summaryData.tasks[iter].get("class"));
+            classView.setLayoutParams(layoutParams);
+
+            TextView teacherView = new TextView(this);
+            teacherView.setText(getString(R.string.set_by) + " " + DisplayJson.summaryData.tasks[iter].get("teacher"));
+            teacherView.setLayoutParams(layoutParams);
+
+            TextView dueView = new TextView(this);
+
+            dueView.setText(getString(R.string.due) + " " + DisplayJson.summaryData.tasks[iter].get("dueDate"));
+
+            dueView.setLayoutParams(layoutParams);
+            dueView.setTypeface(null, Typeface.BOLD);
 
             Log.d("ITER", "" + iter);
-            Log.d("NOTICE", DisplayJson.summaryData.notices[iter].get("title"));
+            Log.d("CLASS", DisplayJson.summaryData.tasks[iter].get("class"));
 
-            tableRow.addView(titleView);
+            container.addView(titleView);
+            container.addView(classView);
+            container.addView(teacherView);
+            container.addView(dueView);
+            container.setLayoutParams(layoutLayoutParams);
+
+            tableRow.addView(container);
 
             setOnClick(tableRow, iter);
             tableRow.setLayoutParams(rowParams);
@@ -104,16 +136,45 @@ public class ShowNotices extends AppCompatActivity {
         setContentView(view);
     }
 
-    private void inDepthNoticeView(int noticeNum) {
+    @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
+    private void inDepthTaskView(final int taskNum) {
+        Log.d("NUM", "" + taskNum);
+        Log.d("TEACHER", DisplayJson.summaryData.tasks[taskNum].get("teacher"));
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(DisplayJson.summaryData.notices[noticeNum].get("description"));
-        builder.setTitle(DisplayJson.summaryData.notices[noticeNum].get("title"));
+
+        SpannableStringBuilder message = new SpannableStringBuilder();
+
+        message.append("Title: " + DisplayJson.summaryData.tasks[taskNum].get("title"));
+
+        int lenAfterTitle = message.length();
+
+        message.append("\n\nDescription:\n" + DisplayJson.summaryData.tasks[taskNum].get("description").trim());
+        message.append("\n\nSet " + DisplayJson.summaryData.tasks[taskNum].get("setDate"));
+
+        int lenBeforeDue = message.length();
+
+        message.append("\n\nDue " + DisplayJson.summaryData.tasks[taskNum].get("dueDate"));
+
+        int lenAfterDue = message.length();
+
+        String className = (DisplayJson.summaryData.tasks[taskNum].get("class").equalsIgnoreCase(
+                "PERSONAL TASK")) ? "You" : DisplayJson.summaryData.tasks[taskNum].get("class");
+
+        message.append("\n\nSet to " + className);
+        message.append(" by " + DisplayJson.summaryData.tasks[taskNum].get("teacher"));
+
+        message.setSpan(new StyleSpan(Typeface.BOLD), lenBeforeDue, lenAfterDue, 0);
+        message.setSpan(new StyleSpan(Typeface.BOLD), 0, lenAfterTitle, 0);
+
+        builder.setMessage(message);
+        //builder.setTitle(DisplayJson.summaryData.tasks[taskNum].get("title"));
 
         AlertDialog alert = builder.create();
         alert.show();
     }
 
-    public void refreshNotices(View view) {
+    public void refreshTasks(View view) {
         ConstraintLayout layout = (ConstraintLayout) view.getParent();
         ConstraintSet set = new ConstraintSet();
         ProgressBar loadingBar = new ProgressBar(this);
@@ -134,7 +195,7 @@ public class ShowNotices extends AppCompatActivity {
         set.applyTo(layout);
 
         try {
-            apiConnect(LoadingPage.noticesUrl, LoadingPage.username, LoadingPage.password);
+            apiConnect(LoadingPage.tasksUrl, LoadingPage.username, LoadingPage.password);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -144,7 +205,7 @@ public class ShowNotices extends AppCompatActivity {
 
         final URL realUrl = new URL(url);
 
-        thread = new Thread(new Runnable() {
+        threadGen = new Thread(new Runnable() {
             public void run() {
                 HttpURLConnection connection;
                 try {
@@ -172,9 +233,9 @@ public class ShowNotices extends AppCompatActivity {
 
                     in.close();
 
-                    DisplayJson.updateJson(result, "notices");
+                    DisplayJson.updateJson(result, "tasks");
 
-                    Intent intent = new Intent(ShowNotices.this, ShowNotices.class);
+                    Intent intent = new Intent(ShowTasks.this, ShowTasks.class);
                     startActivity(intent);
                     finish();
 
@@ -183,14 +244,14 @@ public class ShowNotices extends AppCompatActivity {
                 }
             }
         });
-        thread.start();
+        threadGen.start();
     }
 
     private void setOnClick(final TableRow tableRow, final int iteration) {
-        tableRow.setOnClickListener(new View.OnClickListener() {
+        tableRow.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                inDepthNoticeView(iteration);
+                inDepthTaskView(iteration);
             }
         });
     }
@@ -208,7 +269,7 @@ public class ShowNotices extends AppCompatActivity {
     public void onBackPressed() {
         // First check if the thread isAlive(). To avoid NullPointerException
         try {
-            thread.interrupt();
+            threadGen.interrupt();
             Intent intent = new Intent(this, DisplayJson.class);
             intent.putExtra(DisplayJson.EXTRA_THREAD_CANCELLED, true);
             startActivity(intent);

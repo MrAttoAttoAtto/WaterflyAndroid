@@ -19,7 +19,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.attoa.testapp">
+    package="com.example.attoa.waterfly">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -33,30 +33,30 @@
         android:theme="@style/AppTheme"
         android:fullBackupContent="@xml/backup_descriptor"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.attoa.waterfly.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoadingPage" />
-        <activity android:name=".DisplayJson" />
+        <activity android:name="com.example.attoa.waterfly.LoadingPage" />
+        <activity android:name="com.example.attoa.waterfly.DisplayJson" />
         <activity
-            android:name=".ShowTasks"
-            android:parentActivityName=".DisplayJson" >
+            android:name="com.example.attoa.waterfly.ShowTasks"
+            android:parentActivityName="com.example.attoa.waterfly.DisplayJson" >
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DisplayJson" />
+                android:value="com.example.attoa.waterfly.DisplayJson" />
         </activity>
         <activity
-            android:name=".ShowNotices"
-            android:parentActivityName=".DisplayJson" >
+            android:name="com.example.attoa.waterfly.ShowNotices"
+            android:parentActivityName="com.example.attoa.waterfly.DisplayJson" >
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DisplayJson" />
+                android:value="com.example.attoa.waterfly.DisplayJson" />
         </activity>
     </application>
 

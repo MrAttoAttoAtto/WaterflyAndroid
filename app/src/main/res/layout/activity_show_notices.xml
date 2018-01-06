@@ -23,7 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/constraintLayout"
-    tools:context="com.example.attoa.testapp.ShowNotices"
+    tools:context="com.example.attoa.waterfly.ShowNotices"
     tools:layout_editor_absoluteY="0dp"
     tools:layout_editor_absoluteX="0dp">
 

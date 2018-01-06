@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.example.attoa.testapp;
+package com.example.attoa.waterfly;
 
 import org.junit.Test;
 
