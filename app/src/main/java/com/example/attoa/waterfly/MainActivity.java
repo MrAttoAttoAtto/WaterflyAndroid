@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (intent.hasExtra(LoadingPage.EXTRA_CANCELLED)) {
             logout();
             loginCached = false;
-            Snackbar refresher = Snackbar.make(findViewById(R.id.mainConstraint), "Login cancelled", Snackbar.LENGTH_LONG);
+            Snackbar refresher = Snackbar.make(findViewById(R.id.mainConstraint), "Login cancelled: you have been logged out", Snackbar.LENGTH_LONG);
             refresher.show();
         } else if (intent.hasExtra(DisplayJson.EXTRA_LOGOUT)) {
             logout();

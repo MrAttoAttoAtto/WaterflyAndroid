@@ -43,10 +43,10 @@ public class DisplayJson extends AppCompatActivity {
     static public jsonData summaryData;
 
     static class jsonData {
+        Map<String, Map<String, String>[]> events;
         Map<String, Map<String, String>[]> music;
         Map<String, String>[] notices;
         Map<String, String>[] tasks;
-        @SuppressWarnings("unused")
         Map<String, String>[][] timetable;
     }
 
@@ -77,11 +77,12 @@ public class DisplayJson extends AppCompatActivity {
         }
 
         try {
+            Log.d("EVENT 1", summaryData.events.get("today")[0].get("name"));
             Log.d("MUSIC LESSON 1", summaryData.music.get("music_lessons")[0].get("date"));
             Log.d("TEACHER TASK 1", summaryData.tasks[0].get("teacher"));
             Log.d("ROOM MONDAY 3RD PERIOD", summaryData.timetable[0][2].get("room"));
             Log.d("1st NOTICE", summaryData.notices[0].get("title"));
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
             e.printStackTrace();
         }
     }
