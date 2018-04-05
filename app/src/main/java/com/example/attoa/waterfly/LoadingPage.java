@@ -94,7 +94,9 @@ public class LoadingPage extends AppCompatActivity {
 
                     int resp_code;
 
-                    if (connection.getResponseCode() == 401) {
+                    if (Thread.currentThread().isInterrupted()) {
+                        return;
+                    } else if (connection.getResponseCode() == 401) {
                         Intent intent = new Intent(LoadingPage.this, MainActivity.class);
                         intent.putExtra(EXTRA_WRONGCREDS, true);
                         startActivity(intent);
@@ -121,6 +123,10 @@ public class LoadingPage extends AppCompatActivity {
                     temp.put("username", username);
                     temp.put("password", password);
 
+                    if (Thread.currentThread().isInterrupted()) {
+                        return;
+                    }
+
                     FileOutputStream fio = openFileOutput("creds.ser", MODE_PRIVATE);
                     ObjectOutputStream oos = new ObjectOutputStream(fio);
                     oos.writeObject(temp);
@@ -139,6 +145,9 @@ public class LoadingPage extends AppCompatActivity {
     }
 
     private void finishedLoading(String json) {
+        if (Thread.currentThread().isInterrupted()) {
+            return;
+        }
         Intent intent = new Intent(this, DisplayJson.class);
         intent.putExtra(EXTRA_MESSAGE, json);
         startActivity(intent);

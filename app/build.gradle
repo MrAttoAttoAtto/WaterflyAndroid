@@ -19,12 +19,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.example.attoa.waterfly"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -59,9 +59,9 @@ dependencies {
     compile files('libs/jackson-databind-2.9.0.jar')
     compile files('libs/jackson-core-2.9.0.jar')
     compile files('libs/jackson-annotations-2.9.0.jar')
-    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:appcompat-v7:27.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.8.0'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:design:27.1.1'
 }
