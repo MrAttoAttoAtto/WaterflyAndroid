@@ -35,7 +35,7 @@
         android:layout_weight="1"
         android:ems="10"
         android:hint="@string/edit_message"
-        android:inputType="textPersonName"
+        android:inputType="textNoSuggestions"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -67,7 +67,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editUser" />
+        app:layout_constraintTop_toBottomOf="@+id/editUser"
+        android:imeOptions="actionDone" />
 
     <TextView
         android:id="@+id/textView2"
