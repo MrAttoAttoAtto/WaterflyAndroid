@@ -30,4 +30,5 @@
     <string name="login_string">Login to Firefly</string>
     <string name="set_by">Set by</string>
     <string name="due">Due</string>
+    <string name="loading_string">Logging in…</string>
 </resources>

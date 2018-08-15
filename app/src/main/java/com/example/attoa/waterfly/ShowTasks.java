@@ -145,11 +145,11 @@ public class ShowTasks extends AppCompatActivity {
 
         SpannableStringBuilder message = new SpannableStringBuilder();
 
-        message.append("Title: " + DisplayJson.summaryData.tasks[taskNum].get("title"));
+        //message.append(DisplayJson.summaryData.tasks[taskNum].get("title"));
 
-        int lenAfterTitle = message.length();
+        //int lenAfterTitle = message.length();
 
-        message.append("\n\nDescription:\n" + DisplayJson.summaryData.tasks[taskNum].get("description").trim());
+        message.append(DisplayJson.summaryData.tasks[taskNum].get("description").trim());
         message.append("\n\nSet " + DisplayJson.summaryData.tasks[taskNum].get("setDate"));
 
         int lenBeforeDue = message.length();
@@ -165,10 +165,10 @@ public class ShowTasks extends AppCompatActivity {
         message.append(" by " + DisplayJson.summaryData.tasks[taskNum].get("teacher"));
 
         message.setSpan(new StyleSpan(Typeface.BOLD), lenBeforeDue, lenAfterDue, 0);
-        message.setSpan(new StyleSpan(Typeface.BOLD), 0, lenAfterTitle, 0);
+        //message.setSpan(new StyleSpan(Typeface.BOLD), 0, lenAfterTitle, 0);
 
         builder.setMessage(message);
-        //builder.setTitle(DisplayJson.summaryData.tasks[taskNum].get("title"));
+        builder.setTitle(DisplayJson.summaryData.tasks[taskNum].get("title"));
 
         AlertDialog alert = builder.create();
         alert.show();
